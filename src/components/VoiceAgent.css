@@ -1,0 +1,434 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.voice-agent {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+}
+
+/* Header Styles */
+.header {
+  background: #000000;
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.nav-button {
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.nav-button:hover {
+  background: #f5f5f5;
+  transform: translateY(-1px);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at center, #A855F7 0%, #9333EA 20%, #7C3AED 40%, #6D28D9 60%, #5B21B6 80%, #4C1D95 100%);
+  margin-top: 60px;
+  min-height: calc(100vh - 60px);
+  position: relative;
+}
+
+/* Microphone Container */
+.microphone-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Concentric Rings */
+.ring {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.ring-1 {
+  width: 180px;
+  height: 180px;
+  animation-delay: 0s;
+}
+
+.ring-2 {
+  width: 240px;
+  height: 240px;
+  animation-delay: 0.8s;
+}
+
+.ring-3 {
+  width: 300px;
+  height: 300px;
+  animation-delay: 1.6s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Microphone Button */
+.microphone-btn {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: none;
+  /* background: #EF4444; */
+  background: #059669;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 24px rgba(239, 68, 68, 0.25);
+  position: relative;
+  z-index: 10;
+}
+
+.microphone-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 40px rgba(239, 68, 68, 0.4);
+}
+
+.microphone-btn:active {
+  transform: scale(0.95);
+}
+
+.microphone-btn.recording {
+  background: #DC2626;
+  animation: recordingPulse 1.5s ease-in-out infinite;
+}
+
+.microphone-btn.connected {
+  background: #EF4444;;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+}
+
+.microphone-btn.connected:hover {
+  box-shadow: 0 12px 40px rgba(16, 185, 129, 0.4);
+}
+
+.microphone-btn.connected.recording {
+  background: #059669;
+  animation: recordingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes recordingPulse {
+  0% {
+    box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3), 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3), 0 0 0 20px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3), 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+
+.microphone-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.microphone-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.microphone-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.microphone-btn:disabled:hover {
+  transform: none;
+  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3);
+}
+
+/* Status Notification */
+.status-notification {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  color: #000000;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+}
+
+.status-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #10B981;
+}
+
+.status-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+.session-count {
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.end-call-btn {
+  background: #EF4444;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  font-family: inherit;
+}
+
+.end-call-btn:hover {
+  background: #DC2626;
+  transform: translateY(-1px);
+}
+
+.end-call-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+    height: auto;
+  }
+  
+  .logo {
+    font-size: 1.25rem;
+  }
+  
+  .navigation {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .nav-button {
+    font-size: 0.9rem;
+    padding: 0.4rem 1.2rem;
+  }
+  
+  .main-content {
+    margin-top: 100px;
+    min-height: calc(100vh - 100px);
+  }
+  
+  .microphone-btn {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .microphone-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .ring-1 {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .ring-2 {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .ring-3 {
+    width: 220px;
+    height: 220px;
+  }
+  
+  .status-notification {
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.75rem;
+  }
+  
+  .navigation {
+    gap: 0.75rem;
+  }
+  
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .nav-button {
+    font-size: 0.85rem;
+    padding: 0.3rem 1rem;
+  }
+  
+  .microphone-btn {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .microphone-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .ring-1 {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .ring-2 {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .ring-3 {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .status-notification {
+    bottom: 0.75rem;
+    right: 0.75rem;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.8rem;
+  }
+}
