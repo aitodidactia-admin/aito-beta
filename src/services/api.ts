@@ -106,11 +106,7 @@ class ApiService {
   }
 
   async submitFeedback(feedbackData: {
-    name: string;
-    email?: string;
     message: string;
-    rating: number;
-    category: string;
   }): Promise<{ success: boolean; feedbackId?: string; message?: string }> {
     return this.request('/feedback', {
       method: 'POST',
