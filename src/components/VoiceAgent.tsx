@@ -347,7 +347,12 @@ const VoiceAgent: React.FC = () => {
             >
               Share your thoughts
             </button>
-            <button className="nav-button">Donate</button> */}
+           <button
+           onclick="window.open('https://www.gofundme.com/f/help-launch-aito?attribution_id=sl:65796281-dd63-478d-82fd-2bd44bf3dae8&utm_campaign=man_ss_icons&utm_medium=customer&utm_source=copy_link', '_blank')"
+            >
+              Donate
+            </button>
+        */}
           </nav>
         </div>
       </header>
