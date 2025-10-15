@@ -76,15 +76,14 @@ const ShareThoughts: React.FC = () => {
           <p><i>You can also reach us through Aito – he'll pass on your message to the team.</i></p>
           <form onSubmit={handleSubmit} className="feedback-form">
           <div className="form-group">
-                <label htmlFor="message">Your Message *</label>
-                <textarea
+
+                  <textarea
                   id="message"
                   name="message"
                   value={feedback.message}
                   onChange={handleInputChange}
                   required
                   disabled={isSubmitting}
-                  placeholder="Tell us what you think about Aito. What did you like? What could be improved? Any suggestions?"
                   rows={6}
                 />
               </div>
