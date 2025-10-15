@@ -335,7 +335,7 @@ const VoiceAgent: React.FC = () => {
             >
               Home
             </button>
-            {/* <button 
+            <button 
               className={`nav-link ${currentPage === 'about' ? 'active' : ''}`}
               onClick={() => setCurrentPage('about')}
             >
@@ -352,7 +352,7 @@ const VoiceAgent: React.FC = () => {
             >
               Donate
             </button>
-        */}
+      
           </nav>
         </div>
       </header>
