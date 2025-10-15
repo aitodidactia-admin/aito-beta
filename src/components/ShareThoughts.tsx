@@ -56,7 +56,7 @@ const ShareThoughts: React.FC = () => {
     <div className="share-thoughts-container">
       <div className="share-thoughts-content">
         <header className="share-header">
-          <h2>Share Your Thoughts</h2>
+          <h2>Contact</h2>
         </header>
 
         <section>
