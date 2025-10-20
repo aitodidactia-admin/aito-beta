@@ -94,7 +94,6 @@ const VoiceAgent: React.FC = () => {
       }
     },
     onDisconnect: async (details?: any) => {
-      debugger
       const reason = details?.reason || 'unknown';
       const message = details?.message || '';
       console.log('🔌 Disconnected from ElevenLabs Agent', `(Reason: ${reason}${message ? ` - ${message}` : ''})`);
@@ -291,7 +290,6 @@ const VoiceAgent: React.FC = () => {
   };
 
   const toggleRecording = async () => {
-    debugger
     try {
       if (!isConnected) {
         console.log('🎤 Starting conversation...');
