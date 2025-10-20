@@ -27,11 +27,8 @@ interface User {
 interface Feedback {
   _id: string;
   feedbackId: string;
-  name: string;
   email?: string;
   message: string;
-  rating: number;
-  category: string;
   status: string;
   submittedAt: string;
 }
@@ -325,9 +322,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
           <thead>
             <tr>
               <th>Name</th>
-              <th>Email</th>
-              <th>Category</th>
-              <th>Rating</th>
               <th>Status</th>
               <th>Submitted</th>
               <th>Message</th>
@@ -336,16 +330,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
           <tbody>
             {feedback.map(fb => (
               <tr key={fb._id}>
-                <td>{fb.name}</td>
+                
                 <td>{fb.email || 'N/A'}</td>
-                <td><span className="category-badge">{fb.category}</span></td>
-                <td>
-                  <div className="rating-stars">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <span key={i} className={i < fb.rating ? 'star filled' : 'star'}>⭐</span>
-                    ))}
-                  </div>
-                </td>
+                
                 <td>
                   <select 
                     className="status-select"

@@ -94,6 +94,7 @@ const VoiceAgent: React.FC = () => {
       }
     },
     onDisconnect: async (details?: any) => {
+      debugger
       const reason = details?.reason || 'unknown';
       const message = details?.message || '';
       console.log('🔌 Disconnected from ElevenLabs Agent', `(Reason: ${reason}${message ? ` - ${message}` : ''})`);
@@ -290,6 +291,7 @@ const VoiceAgent: React.FC = () => {
   };
 
   const toggleRecording = async () => {
+    debugger
     try {
       if (!isConnected) {
         console.log('🎤 Starting conversation...');
@@ -329,6 +331,7 @@ const VoiceAgent: React.FC = () => {
         <div className="header-content">
           <div className="logo">Aito</div>
           <nav className="navigation">
+            <>
             <button 
               className={`nav-link ${currentPage === 'home' ? 'active' : ''}`}
               onClick={() => setCurrentPage('home')}
@@ -347,9 +350,9 @@ const VoiceAgent: React.FC = () => {
             >
               Contact
             </button>
-            <button className="nav-button"><a href='https://www.gofundme.com/f/help-launch-aito' >Donate</a></button>
+            <a className="nav-donate" href='https://www.gofundme.com/f/help-launch-aito' target="_blank" rel="noopener noreferrer">Donate</a>
 
-      
+          </>
           </nav>
         </div>
       </header>
@@ -400,7 +403,7 @@ const VoiceAgent: React.FC = () => {
         </div>
 
         {/* Status Notification */}
-        {isConnected && (
+        {/* {isConnected && (
           <div className="status-notification">
             <div className="status-icon">
               <svg viewBox="0 0 24 24" fill="currentColor">
@@ -414,8 +417,8 @@ const VoiceAgent: React.FC = () => {
                 <span className="session-count">Session #{user.totalSessions}</span>
               </div>
             )}
-            
-            {/* End Call Button */}
+          
+            {/* End Call Button }
             <button 
               className="end-call-btn"
               onClick={handleEndCall}
@@ -427,7 +430,7 @@ const VoiceAgent: React.FC = () => {
               End Call
             </button>
           </div>
-        )}
+        )} */}
       </main>
         </>
       )}

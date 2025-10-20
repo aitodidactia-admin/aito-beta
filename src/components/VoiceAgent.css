@@ -61,6 +61,21 @@
   font-family: inherit;
 }
 
+.nav-donate {
+  background-color: #000000;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
 .nav-link:hover {
   background: rgba(255, 255, 255, 0.05);
   color: #ffffff;

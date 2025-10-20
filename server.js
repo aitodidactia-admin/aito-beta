@@ -67,11 +67,8 @@ const sessionSchema = new mongoose.Schema({
 // Feedback Schema
 const feedbackSchema = new mongoose.Schema({
   feedbackId: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
   email: { type: String },
   message: { type: String, required: true },
-  rating: { type: Number, required: true, min: 1, max: 5 },
-  category: { type: String, required: true, enum: ['general', 'feature', 'bug', 'improvement', 'praise'] },
   ipAddress: { type: String, required: true },
   userAgent: { type: String },
   submittedAt: { type: Date, default: Date.now },
