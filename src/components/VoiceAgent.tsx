@@ -309,7 +309,7 @@ const VoiceAgent: React.FC = () => {
         
         console.log('✅ Conversation started with ID:', conversationId);
       } else {
-        if (isRecording) {
+        if (isConnected) {
           console.log('⏹️ Ending conversation...');
           await conversation.endSession();
         } else {
