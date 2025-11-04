@@ -7,7 +7,8 @@ const API_BASE_URL =
     ? process.env.REACT_APP_API_URL_PROD
     : process.env.REACT_APP_API_URL;
 
-const LOGIN_URL = `${API_BASE_URL}/backoffice`;
+const LOGIN_URL = `${API_BASE_URL}/api/admin/login`;
+
 
 interface AdminLoginProps {
   onLogin: (token: string, admin: any) => void;
