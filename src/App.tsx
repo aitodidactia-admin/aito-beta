@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import VoiceAgent from './components/VoiceAgent';
+import UserVoiceAgent from './components/UserVoiceAgent';
 import Admin from './components/Admin';
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/backoffice" element={<Admin />} />
           <Route path="/" element={<VoiceAgent />} />
+          <Route path="/presthun2025test" element={<UserVoiceAgent />} />
         </Routes>
       </div>
     </Router>

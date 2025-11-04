@@ -355,7 +355,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
                   </select>
                 </td>
                 <td>{formatDate(fb.submittedAt)}</td>
-                <td className="message-cell">{fb.message.substring(0, 100)}...</td>
+                <td>{fb.message}</td>
               </tr>
             ))}
           </tbody>
