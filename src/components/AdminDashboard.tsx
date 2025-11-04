@@ -50,6 +50,12 @@ interface Session {
   };
 }
 
+// Determine base API URL depending on environment
+const API_BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_API_URL_PROD
+    : process.env.REACT_APP_API_URL;
+
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout }) => {
   const [currentPage, setCurrentPage] = useState<'dashboard' | 'users' | 'feedback'>('dashboard');
   const [dashboardStats, setDashboardStats] = useState<DashboardStats | null>(null);
@@ -60,7 +66,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
 
   const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
     const response = await fetch(url, {
@@ -82,9 +87,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const data = await fetchWithAuth('http://localhost:5001/api/admin/dashboard');
+      const data = await fetchWithAuth(`${API_BASE_URL}/api/admin/dashboard`);
       setDashboardStats(data.dashboard.stats);
-    } catch (error) {
+    } catch {
       setError('Failed to fetch dashboard data');
     } finally {
       setLoading(false);
@@ -94,9 +99,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const data = await fetchWithAuth('http://localhost:5001/api/admin/users');
+      const data = await fetchWithAuth(`${API_BASE_URL}/api/admin/users`);
       setUsers(data.users);
-    } catch (error) {
+    } catch {
       setError('Failed to fetch users');
     } finally {
       setLoading(false);
@@ -106,9 +111,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
   const fetchFeedback = async () => {
     try {
       setLoading(true);
-      const data = await fetchWithAuth('http://localhost:5001/api/admin/feedback');
+      const data = await fetchWithAuth(`${API_BASE_URL}/api/admin/feedback`);
       setFeedback(data.feedback);
-    } catch (error) {
+    } catch {
       setError('Failed to fetch feedback');
     } finally {
       setLoading(false);
@@ -118,9 +123,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
   const fetchUserSessions = async (userId: string) => {
     try {
       setLoading(true);
-      const data = await fetchWithAuth(`http://localhost:5001/api/admin/user/${userId}/sessions`);
+      const data = await fetchWithAuth(`${API_BASE_URL}/api/admin/user/${userId}/sessions`);
       setUserSessions(data.sessions);
-    } catch (error) {
+    } catch {
       setError('Failed to fetch user sessions');
     } finally {
       setLoading(false);
@@ -128,18 +133,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
   };
 
   useEffect(() => {
-    if (currentPage === 'dashboard') {
-      fetchDashboardData();
-    } else if (currentPage === 'users') {
-      fetchUsers();
-    } else if (currentPage === 'feedback') {
-      fetchFeedback();
-    }
+    if (currentPage === 'dashboard') fetchDashboardData();
+    else if (currentPage === 'users') fetchUsers();
+    else if (currentPage === 'feedback') fetchFeedback();
   }, [currentPage]);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString();
-  };
+  const formatDate = (dateString: string) => new Date(dateString).toLocaleString();
 
   const formatDuration = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -147,46 +146,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
     return `${minutes}m ${remainingSeconds}s`;
   };
 
+  // === RENDERING FUNCTIONS ===
   const renderDashboard = () => (
     <div className="dashboard-content">
       <h2>📊 Dashboard Overview</h2>
-      
       {dashboardStats && (
         <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon">👥</div>
-            <div className="stat-content">
-              <h3>{dashboardStats.totalUsers}</h3>
-              <p>Total Users</p>
-            </div>
-          </div>
-          
-          <div className="stat-card">
-            <div className="stat-icon">💬</div>
-            <div className="stat-content">
-              <h3>{dashboardStats.totalSessions}</h3>
-              <p>Total Sessions</p>
-            </div>
-          </div>
-          
-          <div className="stat-card">
-            <div className="stat-icon">📝</div>
-            <div className="stat-content">
-              <h3>{dashboardStats.totalFeedback}</h3>
-              <p>Total Feedback</p>
-            </div>
-          </div>
-          
-          <div className="stat-card">
-            <div className="stat-icon">🎤</div>
-            <div className="stat-content">
-              <h3>{dashboardStats.activeSessions}</h3>
-              <p>Active Sessions</p>
-            </div>
-          </div>
+          <div className="stat-card"><div className="stat-icon">👥</div><div className="stat-content"><h3>{dashboardStats.totalUsers}</h3><p>Total Users</p></div></div>
+          <div className="stat-card"><div className="stat-icon">💬</div><div className="stat-content"><h3>{dashboardStats.totalSessions}</h3><p>Total Sessions</p></div></div>
+          <div className="stat-card"><div className="stat-icon">📝</div><div className="stat-content"><h3>{dashboardStats.totalFeedback}</h3><p>Total Feedback</p></div></div>
+          <div className="stat-card"><div className="stat-icon">🎤</div><div className="stat-content"><h3>{dashboardStats.activeSessions}</h3><p>Active Sessions</p></div></div>
         </div>
       )}
-
       <div className="welcome-message">
         <h3>Welcome back, {admin.username}! 👋</h3>
         <p>Last login: {formatDate(admin.lastLoginAt)}</p>
@@ -197,17 +168,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
   const renderUsers = () => (
     <div className="users-content">
       <h2>👥 User Management</h2>
-      
       <div className="table-container">
         <table className="data-table">
           <thead>
             <tr>
-              <th>Username</th>
-              <th>IP Address</th>
-              <th>Created</th>
-              <th>Last Active</th>
-              <th>Sessions</th>
-              <th>Actions</th>
+              <th>Username</th><th>IP Address</th><th>Created</th><th>Last Active</th><th>Sessions</th><th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -219,13 +184,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
                 <td>{formatDate(user.lastActiveAt)}</td>
                 <td>{user.totalSessions}</td>
                 <td>
-                  <button 
-                    className="action-button"
-                    onClick={() => {
-                      setSelectedUser(user);
-                      fetchUserSessions(user.userId);
-                    }}
-                  >
+                  <button className="action-button"
+                    onClick={() => { setSelectedUser(user); fetchUserSessions(user.userId); }}>
                     View Sessions
                   </button>
                 </td>
@@ -234,7 +194,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
           </tbody>
         </table>
       </div>
-
+      {/* Sessions Modal */}
       {selectedUser && (
         <div className="user-sessions-modal">
           <div className="modal-content">
@@ -242,7 +202,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
               <h3>Sessions for {selectedUser.username}</h3>
               <button onClick={() => setSelectedUser(null)}>✕</button>
             </div>
-            
             <div className="sessions-list">
               {userSessions.map(session => (
                 <div key={session._id} className="session-card">
@@ -250,31 +209,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
                     <span className="session-id">{session.sessionId}</span>
                     <span className={`status-badge ${session.status}`}>{session.status}</span>
                   </div>
-                  
                   <div className="session-details">
                     <p><strong>Start:</strong> {formatDate(session.startTime)}</p>
                     {session.endTime && <p><strong>End:</strong> {formatDate(session.endTime)}</p>}
                     {session.duration && <p><strong>Duration:</strong> {formatDuration(session.duration)}</p>}
                     <p><strong>Messages:</strong> {session.conversationData.messages.length}</p>
                   </div>
-                  
-                  <div className="session-messages">
-                    <h4>Messages: {session.conversationData.messages.length}</h4>
-                    <button 
-                      className="action-button"
-                      onClick={() => setSelectedSession(session)}
-                    >
-                      View Full Conversation
-                    </button>
-                  </div>
+                  <button className="action-button" onClick={() => setSelectedSession(session)}>
+                    View Full Conversation
+                  </button>
                 </div>
               ))}
             </div>
           </div>
         </div>
       )}
-
-      {/* Conversation Popup Modal */}
+      {/* Conversation Modal */}
       {selectedSession && (
         <div className="conversation-modal">
           <div className="modal-content conversation-modal-content">
@@ -282,7 +232,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
               <h3>Full Conversation</h3>
               <button onClick={() => setSelectedSession(null)}>✕</button>
             </div>
-            
             <div className="session-info">
               <p><strong>Session ID:</strong> {selectedSession.sessionId}</p>
               <p><strong>Start:</strong> {formatDate(selectedSession.startTime)}</p>
@@ -290,19 +239,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
               {selectedSession.duration && <p><strong>Duration:</strong> {formatDuration(selectedSession.duration)}</p>}
               <p><strong>Status:</strong> {selectedSession.status}</p>
             </div>
-            
             <div className="full-conversation">
               <h4>Complete Conversation ({selectedSession.conversationData.messages.length} messages):</h4>
               <div className="messages-container">
-                {selectedSession.conversationData.messages.map((message, index) => (
-                  <div key={index} className={`message-full ${message.role}`}>
+                {selectedSession.conversationData.messages.map((m, i) => (
+                  <div key={i} className={`message-full ${m.role}`}>
                     <div className="message-header">
-                      <span className="message-role-badge">{message.role === 'user' ? '👤 User' : '🤖 AI'}</span>
-                      <span className="message-time">{new Date(message.timestamp).toLocaleTimeString()}</span>
+                      <span className="message-role-badge">{m.role === 'user' ? '👤 User' : '🤖 AI'}</span>
+                      <span className="message-time">{new Date(m.timestamp).toLocaleTimeString()}</span>
                     </div>
-                    <div className="message-content-full">
-                      {message.content}
-                    </div>
+                    <div className="message-content-full">{m.content}</div>
                   </div>
                 ))}
               </div>
@@ -316,35 +262,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
   const renderFeedback = () => (
     <div className="feedback-content">
       <h2>📝 Feedback Management</h2>
-      
       <div className="table-container">
         <table className="data-table">
           <thead>
-            <tr>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Submitted</th>
-              <th>Message</th>
-            </tr>
+            <tr><th>Email</th><th>Status</th><th>Submitted</th><th>Message</th></tr>
           </thead>
           <tbody>
             {feedback.map(fb => (
               <tr key={fb._id}>
-                
                 <td>{fb.email || 'N/A'}</td>
-                
                 <td>
-                  <select 
+                  <select
                     className="status-select"
                     value={fb.status}
                     onChange={async (e) => {
                       try {
-                        await fetchWithAuth(`http://localhost:5001/api/admin/feedback/${fb.feedbackId}/status`, {
+                        await fetchWithAuth(`${API_BASE_URL}/api/admin/feedback/${fb.feedbackId}/status`, {
                           method: 'PUT',
-                          body: JSON.stringify({ status: e.target.value })
+                          body: JSON.stringify({ status: e.target.value }),
                         });
-                        fetchFeedback(); // Refresh feedback list
-                      } catch (error) {
+                        fetchFeedback();
+                      } catch {
                         setError('Failed to update feedback status');
                       }
                     }}
@@ -364,7 +302,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
     </div>
   );
 
-
   return (
     <div className="admin-dashboard">
       <header className="admin-header">
@@ -378,30 +315,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ token, admin, onLogout 
       </header>
 
       <nav className="admin-nav">
-        <button 
-          className={currentPage === 'dashboard' ? 'nav-button active' : 'nav-button'}
-          onClick={() => setCurrentPage('dashboard')}
-        >
-          📊 Dashboard
-        </button>
-        <button 
-          className={currentPage === 'users' ? 'nav-button active' : 'nav-button'}
-          onClick={() => setCurrentPage('users')}
-        >
-          👥 Users
-        </button>
-        <button 
-          className={currentPage === 'feedback' ? 'nav-button active' : 'nav-button'}
-          onClick={() => setCurrentPage('feedback')}
-        >
-          📝 Feedback
-        </button>
+        <button className={currentPage === 'dashboard' ? 'nav-button active' : 'nav-button'} onClick={() => setCurrentPage('dashboard')}>📊 Dashboard</button>
+        <button className={currentPage === 'users' ? 'nav-button active' : 'nav-button'} onClick={() => setCurrentPage('users')}>👥 Users</button>
+        <button className={currentPage === 'feedback' ? 'nav-button active' : 'nav-button'} onClick={() => setCurrentPage('feedback')}>📝 Feedback</button>
       </nav>
 
       <main className="admin-main">
         {loading && <div className="loading">Loading...</div>}
         {error && <div className="error">{error}</div>}
-        
         {currentPage === 'dashboard' && renderDashboard()}
         {currentPage === 'users' && renderUsers()}
         {currentPage === 'feedback' && renderFeedback()}

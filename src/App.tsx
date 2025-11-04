@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import VoiceAgent from './components/VoiceAgent';
 import UserVoiceAgent from './components/UserVoiceAgent';
+import AdminDashboard from './components/AdminDashboard';
 import Admin from './components/Admin';
 
 function App() {

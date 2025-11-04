@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import './AdminLogin.css';
 
-const URLID = process.env.REACT_APP_PROD_BACKOFFICE || 'http://localhost:5001/api/admin/login';
+// Determine base API URL depending on environment
+const API_BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.REACT_APP_API_URL_PROD
+    : process.env.REACT_APP_API_URL;
 
+const LOGIN_URL = `${API_BASE_URL}/api/admin/login`;
 
 interface AdminLoginProps {
   onLogin: (token: string, admin: any) => void;
@@ -11,16 +16,16 @@ interface AdminLoginProps {
 const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({
     username: '',
-    password: ''
+    password: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCredentials(prev => ({
+    setCredentials((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     setError('');
   };
@@ -31,11 +36,9 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
     setError('');
 
     try {
-      const response = await fetch( URLID, {
+      const response = await fetch(LOGIN_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(credentials),
       });
 
@@ -46,7 +49,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
       } else {
         setError(data.error || 'Login failed');
       }
-    } catch (error) {
+    } catch {
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);
@@ -90,24 +93,12 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
             />
           </div>
 
-          {error && (
-            <div className="error-message">
-              ❌ {error}
-            </div>
-          )}
+          {error && <div className="error-message">❌ {error}</div>}
 
-          <button
-            type="submit"
-            className="login-button"
-            disabled={isLoading}
-          >
+          <button type="submit" className="login-button" disabled={isLoading}>
             {isLoading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
-
-        {/* <div className="admin-login-footer">
-          <p>Default credentials: <strong>admin / 123456</strong></p>
-        </div> */}
       </div>
     </div>
   );
